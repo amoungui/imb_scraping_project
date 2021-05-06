@@ -6,10 +6,13 @@ from EntityManager import EntityManager
 class MovieManager(EntityManager):
     def __init__(self, entity, tags:list):
         self.entity = entity
-        self.gettitle(tags[0])
+        self.gettitle(tags[1])
         self.getvote(tags[1])
         self.getrating(tags[1])
         self.getscore(tags[1])
+        self.gettype(tags[1])
+        self.getruntime(tags[1])
+        self.getgross(tags[1])
     
     ## @method getvote
     ## @param tag: a taget
@@ -18,7 +21,7 @@ class MovieManager(EntityManager):
         try:
             return self.entity.__setvote__(tag.find('span', attrs={'name':'nv'}).text)
         except (TypeError, AttributeError):
-            return self.entity.__setscore__(None)
+            return self.entity.__setvote__(None)
 
     ## @method getrating
     ## @param tag: a taget
@@ -27,7 +30,7 @@ class MovieManager(EntityManager):
         try:
             return self.entity.__setrating__(tag.find('div', attrs={'class':'ratings-imdb-rating'}).find('strong').text)
         except (TypeError, AttributeError):
-            return self.entity.__setscore__(None)
+            return self.entity.__setrating__(None)
 
     ## @method getruntime
     ## @param tag: a taget
@@ -36,7 +39,7 @@ class MovieManager(EntityManager):
         try:
             return self.entity.__setruntime__(tag.find('span', attrs={'class':'runtime'}).text)
         except (TypeError, AttributeError):
-            return self.entity.__setscore__(None)
+            return self.entity.__setruntime__(None)
     ## @method getgross
     ## @param tag: a taget
     ## @return Gross value
@@ -44,16 +47,17 @@ class MovieManager(EntityManager):
         try:
             return self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text)
         except (TypeError, AttributeError):
-            return self.entity.__setscore__(None)    
+            return self.entity.__setgross__(None)    
 
     ## @method getfilmname
     ## @param tag: a taget
     ## @return name of film
     def gettitle(self, tag):
         try:
-            return self.entity.__setscore__(tag.find('div', attrs={'class':'title_wrapper'}).find('h1', attrs={'class':''}).text)
+            return self.entity.__settitle__(tag.find('h3', attrs={'class':'lister-item-header'}).find('a').text)
+            #return self.entity.__settitle__(tag.find('div', attrs={'class':'title_wrapper'}).find('h1', attrs={'class':''}).text)
         except (TypeError, AttributeError):
-            return self.entity.__setscore__(None)
+            return self.entity.__settitle__(None)
 
     ## @method gettype
     ## @param tag: a taget
@@ -62,7 +66,7 @@ class MovieManager(EntityManager):
         try:
             return self.entity.__settype__(tag.find('span', attrs={'class':'genre'}).text)
         except (TypeError, AttributeError):
-            return self.entity.__setscore__(None)
+            return self.entity.__settype__(None)
 
     ## @method getscore
     ## @param tag: a taget
