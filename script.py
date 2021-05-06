@@ -33,8 +33,8 @@ def main():
             r = requests.get(_link(getlink(tag)))
             if r.ok:
                 content = BeautifulSoup(r.text, 'html.parser')
-                manager = Manager(entity, content)        
-                return entity.__gettitle__()
+                manager = Manager(entity, [content, tag])        
+                return entity.__getrating__()
 
 #    for step in range(1,5000,50):
 #        print('page: ', step)
