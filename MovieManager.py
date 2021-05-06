@@ -6,7 +6,7 @@ from EntityManager import EntityManager
 class MovieManager(EntityManager):
     def __init__(self, entity, tag):
         self.entity = entity
-        self.getfilmname(tag)
+        self.gettitle(tag)
 
     ## @method getvote
     ## @param tag: a taget
@@ -37,9 +37,9 @@ class MovieManager(EntityManager):
     ## @method getfilmname
     ## @param tag: a taget
     ## @return name of film
-    def getfilmname(self, tag):
-        #tag.find('h3', attrs={'class':'lister-item-header'}).find('a').text
-        return self.entity.__settitle__(tag.text)
+    def gettitle(self, tag):
+        tag = tag.find('div', attrs={'class':'title_wrapper'}).find('h1', attrs={'class':''}).text
+        return self.entity.__settitle__(tag)
 
     ## @method gettype
     ## @param tag: a taget
