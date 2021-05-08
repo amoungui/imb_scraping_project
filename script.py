@@ -30,11 +30,11 @@ def main():
         soup = BeautifulSoup(res.text, 'html.parser')
         tags = soup.find_all('div', attrs={'class':'lister-item-content'})
         for tag in tags:
-            r = requests.get(_link(getlink(tag)))
+            r = requests.get(_link(getlink(tag)))## _link(getlink(tag))
             if r.ok:
                 content = BeautifulSoup(r.text, 'html.parser')
                 manager = Manager(entity, [content, tag])        
-                return entity.__getgross__()
+                return entity
 
 #    for step in range(1,5000,50):
 #        print('page: ', step)

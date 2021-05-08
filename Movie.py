@@ -11,10 +11,12 @@ class Movie:
         self.writter = ''
         self.duration = ''
         self.release_date = ''
+        self.release_country = ''
         self.country = ''
         self.location = ''
         self.review = ''
-        self.filmographie = []
+        self.writterfilmographie = []
+        self.directorfilmographie = []
         self.budget = ''
         self.opening_weekend = ''
         self.gross = ''
@@ -50,6 +52,9 @@ class Movie:
     
     def __getrelease_date__(self):
         return self.release_date
+ 
+    def __getrelease_country__(self):
+        return self.release_country   
     
     def __getcountry__(self):
         return self.country
@@ -60,9 +65,12 @@ class Movie:
     def __getreview__(self):
         return self.review
     
-    def __getfilmographie__(self):
-        return self.filmographie
+    def __getwritterfilmographie__(self):
+        return self.writterfilmographie
     
+    def __getdirectorfilmographie__(self):
+        return self.directorfilmographie
+        
     def __getbudget__(self):
         return self.budget
     
@@ -142,6 +150,12 @@ class Movie:
         else:
             self.release_date = 'xxx'
     
+    def __setrelease_country__(self, tag):
+        if tag is not None:
+            self.release_country = tag
+        else:
+            self.release_country = 'xxx'
+                
     def __setcountry__(self, tag):
         if tag is not None:
             self.country = tag
@@ -160,12 +174,18 @@ class Movie:
         else: 
             self.review = 'xxx'
     
-    def __setfilmographie__(self, tag):
+    def __setwritterfilmographie__(self, tag):
         if tag is not None:
-            self.filmographie = tag
+            self.writterfilmographie = tag
         else: 
-            self.filmographie = 'xxx'
+            self.writterfilmographie = 'xxx'
     
+    def __setdirectorfilmographie__(self, tag):
+        if tag is not None:
+            self.directorfilmographie = tag
+        else: 
+            self.directorfilmographie = 'xxx'
+        
     def __setbudget__(self, tag):
         if tag is not None:
             self.budget = tag
@@ -177,6 +197,7 @@ class Movie:
             self.opening_weekend = tag
         else:
             self.opening_weekend = 'xxx'
+            
     def __setgross__(self, tag):
         if tag is not None:
             self.gross =tag
