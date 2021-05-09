@@ -1,9 +1,15 @@
 #! /usr/bin/env python3
 # coding: utf-8
+import sys
+
+from os.path import dirname, abspath
+d = dirname(dirname(abspath(__file__)))
+sys.path.append(d)
+
 import requests 
 from bs4 import BeautifulSoup 
-from Movie import Movie as Movie 
-from MovieManager import MovieManager as Manager 
+from Models.Movie import Movie as Movie 
+from Managers.MovieManager import MovieManager as Manager 
 
 ## @method getlink
 ## @param tag: a taget
@@ -34,7 +40,8 @@ def main():
             if r.ok:
                 content = BeautifulSoup(r.text, 'html.parser')
                 manager = Manager(entity, [content, tag])        
-                return entity
+                manager.parse_json(entity)
+                return manager.to_csv()
 
 #    for step in range(1,5000,50):
 #        print('page: ', step)

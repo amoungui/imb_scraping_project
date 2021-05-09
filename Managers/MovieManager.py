@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from EntityManager import EntityManager
+from Managers.EntityManager import EntityManager
 
 class MovieManager(EntityManager):
     def __init__(self, entity, tags:list):
@@ -68,10 +68,10 @@ class MovieManager(EntityManager):
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
             if len(list) == 10:
-                return self.entity.__setlocation__(list[4].find_all('a')[0].text)
+                return self.entity.__setlocation__(list[4].find_all('a')[0].text.replace(',', ';').strip())
             else:
-                return self.entity.__setlocation__(list[5].find_all('a')[0].text)
-        except (TypeError, AttributeError):
+                return self.entity.__setlocation__(list[5].find_all('a')[0].text.replace(',', ';').strip())
+        except (TypeError, AttributeError, IndexError):
             return self.entity.__setlocation__(None)
 
     ## @method getbudget
@@ -81,10 +81,8 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            if len(list) == 10:
-                return self.entity.__setbudget__(list[5].text[9:19].replace(',',''))
-            else:
-                return self.entity.__setbudget__(list[6].text[9:19].replace(',',''))
+            value = list[6].split()
+            return self.entity.__setbudget__(value[2].text[1:].replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setbudget__(None)
 
@@ -95,10 +93,8 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            if len(list) == 10:
-                return self.entity.__setopening_weekend__(list[6].text.strip()[22:29].replace(',', ''))
-            else:
-                return self.entity.__setopening_weekend__(list[7].text.strip()[22:29].replace(',', ''))
+            value = list[7].split()
+            return self.entity.__setopening_weekend__(value[1].text.strip()[1:].replace(',', '').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setopening_weekend__(None)
         
@@ -109,10 +105,8 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            if len(list) == 10:
-                return self.entity.__setworldwide_gross__(list[7].text.strip()[12:].replace(',',''))#len(list)
-            else:
-                return self.entity.__setworldwide_gross__(list[8].text.strip()[12:].replace(',',''))
+            value = list[8].split()
+            return self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setworldwide_gross__(None)
 
@@ -123,10 +117,8 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            if len(list) == 10:
-                return self.entity.__setworldwide_gross__(list[8].text.strip()[29:].replace(',',''))
-            else:
-                return self.entity.__setworldwide_gross__(list[9].text.strip()[29:].replace(',',''))
+            value = list[9].split()
+            return self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setworldwide_gross__(None)
 
@@ -137,10 +129,7 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            if len(list) == 10 :
-                return self.entity.__setsound_mix__(list[12].text[11:].strip())
-            else:
-                return self.entity.__setsound_mix__(list[13].text[11:].strip())
+            return self.entity.__setsound_mix__(list[13].text[11:].strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setsound_mix__(None)
 
@@ -173,7 +162,7 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
             list = [i for i in r]
-            return self.entity.__setdirector__(list[0].find('a').text)#         
+            return self.entity.__setdirector__(list[0].find('a').text.strip())#         
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setdirector__(None)
 
@@ -184,7 +173,7 @@ class MovieManager(EntityManager):
         try:
             r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
             list = [i for i in r]
-            return self.entity.__setwritter__(list[1].find('a').text)#len(list)            
+            return self.entity.__setwritter__(list[1].find('a').text.strip())#len(list)            
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setwritter__(None)
 
@@ -194,7 +183,8 @@ class MovieManager(EntityManager):
     def getreview(self, tag):
         try:
             r = tag.find('div', attrs={'class':'titleReviewBarItem titleReviewbarItemBorder'}).find('span', attrs={'class':'subText'})
-            return self.entity.__setreview__(r.text[0:7].strip().replace(',',''))            
+            val = r.text.split()
+            return  self.entity.__setreview__(val[0].strip().replace(',','').strip())            
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setreview__(None)
 
@@ -210,7 +200,7 @@ class MovieManager(EntityManager):
             result = BeautifulSoup(resp.text, 'html.parser')
             s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
             for i in s1:
-                array.append(i.find('a').text)
+                array.append(i.find('a').text.strip())
             return self.entity.__setdirectorfilmographie__(array)#      
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setdirectorfilmographie__(None)
@@ -227,7 +217,7 @@ class MovieManager(EntityManager):
             result = BeautifulSoup(resp.text, 'html.parser')
             s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
             for i in s1:
-                array.append(i.find('a').text)
+                array.append(i.find('a').text.strip())
             return self.entity.__setwritterfilmographie__(array)    
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setwritterfilmographie__(None)
@@ -237,7 +227,7 @@ class MovieManager(EntityManager):
     ## @return vote value
     def getvote(self, tag):
         try:
-            return self.entity.__setvote__(tag.find('span', attrs={'name':'nv'}).text)
+            return self.entity.__setvote__(tag.find('span', attrs={'name':'nv'}).text.replace(',','.').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setvote__(None)
 
@@ -246,7 +236,7 @@ class MovieManager(EntityManager):
     ## @return rating(note) value
     def getrating(self, tag):
         try:
-            return self.entity.__setrating__(tag.find('div', attrs={'class':'ratings-imdb-rating'}).find('strong').text)
+            return self.entity.__setrating__(tag.find('div', attrs={'class':'ratings-imdb-rating'}).find('strong').text.strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setrating__(None)
 
@@ -255,7 +245,7 @@ class MovieManager(EntityManager):
     ## @return runtime value
     def getruntime(self, tag):
         try:
-            return self.entity.__setruntime__(tag.find('span', attrs={'class':'runtime'}).text)
+            return self.entity.__setruntime__(tag.find('span', attrs={'class':'runtime'}).text.strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setruntime__(None)
         
@@ -264,7 +254,7 @@ class MovieManager(EntityManager):
     ## @return Gross value
     def getgross(self, tag):
         try:
-            return self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text)
+            return self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text.strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setgross__(None)    
 
@@ -273,7 +263,7 @@ class MovieManager(EntityManager):
     ## @return name of film
     def gettitle(self, tag):
         try:
-            return self.entity.__settitle__(tag.find('h3', attrs={'class':'lister-item-header'}).find('a').text)
+            return self.entity.__settitle__(tag.find('h3', attrs={'class':'lister-item-header'}).find('a').text.strip())
             #return self.entity.__settitle__(tag.find('div', attrs={'class':'title_wrapper'}).find('h1', attrs={'class':''}).text)
         except (TypeError, AttributeError, IndexError):
             return self.entity.__settitle__(None)
@@ -283,7 +273,7 @@ class MovieManager(EntityManager):
     ## @return type of film
     def gettype(self, tag):
         try:
-            return self.entity.__settype__(tag.find('span', attrs={'class':'genre'}).text)
+            return self.entity.__settype__(tag.find('span', attrs={'class':'genre'}).text[1:16].replace(',',';').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__settype__(None)
 
@@ -292,7 +282,7 @@ class MovieManager(EntityManager):
     ## @return film metascore
     def getscore(self, tag):
         try:
-            return self.entity.__setscore__(tag.find('span', attrs={'class':'metascore'}).text)
+            return self.entity.__setscore__(tag.find('span', attrs={'class':'metascore'}).text.replace(',', '').strip())
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setscore__(None)
          
