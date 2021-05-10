@@ -31,6 +31,7 @@ def _link(url):
 
 def main():
     entity = Movie()
+    results = []
     url = 'https://www.imdb.com/search/title/?at=0&num_votes=5000,&sort=user_rating,desc&start=1&title_type=feature'
     res = requests.get(url)
 
@@ -41,9 +42,10 @@ def main():
             r = requests.get(_link(getlink(tag)))
             if r.ok:
                 content = BeautifulSoup(r.text, 'html.parser')
-                manager = Manager(entity, [content, tag])        
+                manager = Manager(entity, [content, tag])
                 manager.parse_json(entity)
-                return manager.to_csv()
+                manager.to_csv()
+                #results.append(entity)
 
 #    for step in range(1,5000,50):
 #        print('page: ', step)

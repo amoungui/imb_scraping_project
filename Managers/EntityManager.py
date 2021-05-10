@@ -9,35 +9,10 @@ class EntityManager:
     entity = None
     dataset = []
         
-    def getPaginate(n:int):
-        """ @method getPaginate
-            @param n: int
-            @return pagination
-            @description return new index of pagination  
-        """                     
-        return self.entity.paginate(n)
+#    def hydrater(self, Objects:list):            
+#        for obj in Objects:
+#            self.parse_json(obj)
     
-    def fetch(self, url):
-        """ @method fetch
-            @param url
-            @return object rquests: response 
-            @description get and return the content of the web page  
-        """             
-        print('HTTP GET request to URL: %s' % url, end='')
-        res = requests.get(url)
-        print(' | Status code: %s' % res.status_code)
-        
-        return res
-    
-    def parse(self, html):
-        """ @method parse
-            @param html tagert
-            @return object parsed 
-            @description parse the html code given in argument 
-        """             
-        content = BeautifulSoup(html, 'html.parser')
-        return content
-     
     def parse_json(self, entity):
         """ @method parse_json
             @param Object: entity 
