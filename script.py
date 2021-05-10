@@ -11,21 +11,23 @@ from bs4 import BeautifulSoup
 from Models.Movie import Movie as Movie 
 from Managers.MovieManager import MovieManager as Manager 
 
-## @method getlink
-## @param tag: a taget
-## @return link of single page
+
 def getlink(tag):
+    """ @method getlink
+        @param tag: a taget
+        @return link of a page
+    """    
     target = tag.find('h3', attrs={'class':'lister-item-header'})
     a = target.find('a')
     _link = a['href']
     return _link
 
-## @method _setlink
-## @param tag: a taget
-## @return link of single page
 def _link(url):
+    """ @method _link
+        @param tag: a taget
+        @return link of single page
+    """        
     return 'https://www.imdb.com/'+ str(url)+'?ref_=adv_li_tt'
-
 
 def main():
     entity = Movie()
@@ -36,7 +38,7 @@ def main():
         soup = BeautifulSoup(res.text, 'html.parser')
         tags = soup.find_all('div', attrs={'class':'lister-item-content'})
         for tag in tags:
-            r = requests.get(_link(getlink(tag)))## _link(getlink(tag))
+            r = requests.get(_link(getlink(tag)))
             if r.ok:
                 content = BeautifulSoup(r.text, 'html.parser')
                 manager = Manager(entity, [content, tag])        
@@ -47,6 +49,7 @@ def main():
 #        print('page: ', step)
 #        for i in range(1, 50):
 #            print(i)
+
 
 if __name__ == '__main__':
     print(main())

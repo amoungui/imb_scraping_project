@@ -6,7 +6,7 @@ from Managers.EntityManager import EntityManager
 class MovieManager(EntityManager):
     def __init__(self, entity, tags:list):
         self.entity = entity
-        self.gettitle(tags[1])
+        self.getfilmname(tags[1])
         self.getvote(tags[1])
         self.getrating(tags[1])
         self.getscore(tags[1])
@@ -30,168 +30,183 @@ class MovieManager(EntityManager):
         self.getdirectorfilmographie(tags[0])
         self.getwritterfilmographie(tags[0])
         
-    ## @method getduration
-    ## @param tag: a taget
-    ## @return duration value
     def getduration(self, tag):
+        """ @method getduration
+            @param tag: a taget
+            @description hydrate the value of duration entity  
+        """                     
         try:
             r = tag.find('div', attrs={'class':'subtext'})
-            return self.entity.__setduration__(r.find('time').text.strip())
+            self.entity.__setduration__(r.find('time').text.strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setduration__(None)
+            self.entity.__setduration__(None)
 
-    ## @method getrelease_date
-    ## @param tag: a taget
-    ## @return release date value
     def getrelease_date(self, tag):
+        """ @method getrelease_date
+            @param tag: a taget
+            @description hydrate the value of release entity  
+        """                             
         try:
             r = tag.find('div', attrs={'class':'subtext'})
-            return self.entity.__setrelease_date__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[0:11])
+            self.entity.__setrelease_date__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[0:11])
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setrelease_date__(None)
+            self.entity.__setrelease_date__(None)
 
-    ## @method getrelease_country
-    ## @param tag: a taget
-    ## @return getrelease country value class="txt-block"
     def getrelease_country(self, tag):
+        """ @method getrelease_country
+            @param tag: a taget
+            @description hydrate the value of getrelease country entity  
+        """                                     
         try:
             r = tag.find('div', attrs={'class':'subtext'})
-            return self.entity.__setrelease_country__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[12:-1])
+            self.entity.__setrelease_country__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[12:-1])
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setrelease_country__(None)
+            self.entity.__setrelease_country__(None)
 
-    ## @method getfilminglocation
-    ## @param tag: a taget
-    ## @return filming location value
     def getfilminglocation(self, tag):
+        """ @method getfilminglocation
+            @param tag: a taget
+            @description hydrate the value of filming location entity  
+        """                                     
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
             if len(list) == 10:
-                return self.entity.__setlocation__(list[4].find_all('a')[0].text.replace(',', ';').strip())
+                self.entity.__setlocation__(list[4].find_all('a')[0].text.replace(',', ';').strip())
             else:
-                return self.entity.__setlocation__(list[5].find_all('a')[0].text.replace(',', ';').strip())
+                self.entity.__setlocation__(list[5].find_all('a')[0].text.replace(',', ';').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setlocation__(None)
+            self.entity.__setlocation__(None)
 
-    ## @method getbudget
-    ## @param tag: a taget
-    ## @return budget value
     def getbudget(self, tag):
+        """ @method getbudget
+            @param tag: a taget
+            @description hydrate the value of budget entity  
+        """                                          
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
             value = list[6].split()
-            return self.entity.__setbudget__(value[2].text[1:].replace(',','').strip())
+            self.entity.__setbudget__(value[2].text[1:].replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setbudget__(None)
+            self.entity.__setbudget__(None)
 
-    ## @method getopening_weekend
-    ## @param tag: a taget
-    ## @return getopening weekend value
     def getopening_weekend(self, tag):
+        """ @method getopening_weekend
+            @param tag: a taget
+            @description hydrate the value of getopening weekend entity  
+        """                                          
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
             value = list[7].split()
-            return self.entity.__setopening_weekend__(value[1].text.strip()[1:].replace(',', '').strip())
+            self.entity.__setopening_weekend__(value[1].text.strip()[1:].replace(',', '').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setopening_weekend__(None)
+            self.entity.__setopening_weekend__(None)
         
-    ## @method getgross_
-    ## @param tag: a taget
-    ## @return gross value
     def getgross_(self, tag):
+        """ @method getgross_
+            @param tag: a taget
+            @description hydrate the value of getgross entity  
+        """                                                  
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
             value = list[8].split()
-            return self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
+            self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setworldwide_gross__(None)
+            self.entity.__setworldwide_gross__(None)
 
-    ## @method getworldwide_gross
-    ## @param tag: a taget
-    ## @return worldwide gross value
     def getworldwide_gross(self, tag):
+        """ @method getworldwide_gross
+            @param tag: a taget
+            @description hydrate the value of worldwide gross entity  
+        """        
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
             value = list[9].split()
-            return self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
+            self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setworldwide_gross__(None)
+            self.entity.__setworldwide_gross__(None)
 
-    ## @method getworldwide_gross
-    ## @param tag: a taget
-    ## @return worldwide gross value
     def getsoundmix(self, tag):
+        """ @method getsoundmix
+            @param tag: a taget
+            @description hydrate the value of worldwide gross entity  
+        """                
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            return self.entity.__setsound_mix__(list[13].text[11:].strip())
+            self.entity.__setsound_mix__(list[13].text[11:].strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setsound_mix__(None)
+            self.entity.__setsound_mix__(None)
 
-    ## @method getcolor
-    ## @param tag: a taget
-    ## @return color value
     def getcolor(self, tag):
+        """ @method getcolor
+            @param tag: a taget
+            @description hydrate the value of color entity  
+        """                        
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            return self.entity.__setcolor__(list[14].text[7:].strip())#len(list)
+            self.entity.__setcolor__(list[14].text[7:].strip())#len(list)
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setcolor__(None)
+            self.entity.__setcolor__(None)
 
-    ## @method getcolor
-    ## @param tag: a taget
-    ## @return color value
     def getaspect_ratio(self, tag):
+        """ @method getaspect_ratio
+            @param tag: a taget
+            @description hydrate the value of aspect_ratio entity  
+        """                                
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = [i for i in r]
-            return self.entity.__setaspect_ratio__(list[15].text[14:].strip())#len(list)
+            self.entity.__setaspect_ratio__(list[15].text[14:].strip())#len(list)
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setaspect_ratio__(None)
+            self.entity.__setaspect_ratio__(None)
 
-    ## @method getdirector
-    ## @param tag: a taget
-    ## @return director name
     def getdirector(self, tag):
+        """ @method getdirector
+            @param tag: a taget
+            @description hydrate the value of director name entity  
+        """                                        
         try:
             r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
             list = [i for i in r]
-            return self.entity.__setdirector__(list[0].find('a').text.strip())#         
+            self.entity.__setdirector__(list[0].find('a').text.strip())#         
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setdirector__(None)
+            self.entity.__setdirector__(None)
 
-    ## @method getwritter
-    ## @param tag: a taget
-    ## @return writter name
     def getwritter(self, tag):
+        """ @method getwritter
+            @param tag: a taget
+            @description hydrate the value of writter name entity  
+        """                                          
         try:
             r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
             list = [i for i in r]
-            return self.entity.__setwritter__(list[1].find('a').text.strip())#len(list)            
+            self.entity.__setwritter__(list[1].find('a').text.strip())#len(list)            
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setwritter__(None)
+            self.entity.__setwritter__(None)
 
-    ## @method getreview
-    ## @param tag: a taget
-    ## @return number of review
     def getreview(self, tag):
+        """ @method getreview
+            @param tag: a taget
+            @description hydrate the value of number of review entity  
+        """                       
         try:
             r = tag.find('div', attrs={'class':'titleReviewBarItem titleReviewbarItemBorder'}).find('span', attrs={'class':'subText'})
             val = r.text.split()
-            return  self.entity.__setreview__(val[0].strip().replace(',','').strip())            
+            self.entity.__setreview__(val[0].strip().replace(',','').strip())            
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setreview__(None)
+            self.entity.__setreview__(None)
 
-    ## @method getdirectorfilmographie
-    ## @param tag: a taget
-    ## @return list of director filmographie
     def getdirectorfilmographie(self, tag):
+        """ @method getdirectorfilmographie
+            @param tag: a taget
+            @description hydrate the value of list of director filmographie entity  
+        """                               
         array = []
         try:
             r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
@@ -201,14 +216,15 @@ class MovieManager(EntityManager):
             s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
             for i in s1:
                 array.append(i.find('a').text.strip())
-            return self.entity.__setdirectorfilmographie__(array)#      
+            self.entity.__setdirectorfilmographie__(array)#      
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setdirectorfilmographie__(None)
+            self.entity.__setdirectorfilmographie__(None)
           
-    ## @method getwritterfilmographie
-    ## @param tag: a taget
-    ## @return list of writter filmographie
     def getwritterfilmographie(self, tag):
+        """ @method getwritterfilmographie
+            @param tag: a taget
+            @description hydrate the value of writter filmographie entity  
+        """         
         array = []
         try:
             r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
@@ -218,103 +234,118 @@ class MovieManager(EntityManager):
             s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
             for i in s1:
                 array.append(i.find('a').text.strip())
-            return self.entity.__setwritterfilmographie__(array)    
+            self.entity.__setwritterfilmographie__(array)    
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setwritterfilmographie__(None)
+            self.entity.__setwritterfilmographie__(None)
                                 
-    ## @method getvote
-    ## @param tag: a taget
-    ## @return vote value
     def getvote(self, tag):
+        """ @method getvote
+            @param tag: a taget
+            @description hydrate the value of vote entity  
+        """         
         try:
-            return self.entity.__setvote__(tag.find('span', attrs={'name':'nv'}).text.replace(',','.').strip())
+            self.entity.__setvote__(tag.find('span', attrs={'name':'nv'}).text.replace(',','.').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setvote__(None)
+            self.entity.__setvote__(None)
 
-    ## @method getrating
-    ## @param tag: a taget
-    ## @return rating(note) value
     def getrating(self, tag):
+        """ @method getrating
+            @param tag: a taget
+            @description hydrate the value of rating(note) entity  
+        """                 
         try:
-            return self.entity.__setrating__(tag.find('div', attrs={'class':'ratings-imdb-rating'}).find('strong').text.strip())
+            self.entity.__setrating__(tag.find('div', attrs={'class':'ratings-imdb-rating'}).find('strong').text.strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setrating__(None)
+            self.entity.__setrating__(None)
 
-    ## @method getruntime
-    ## @param tag: a taget
-    ## @return runtime value
     def getruntime(self, tag):
+        """ @method getruntime
+            @param tag: a taget
+            @description hydrate the value of runtime entity  
+        """                 
         try:
-            return self.entity.__setruntime__(tag.find('span', attrs={'class':'runtime'}).text.strip())
+            self.entity.__setruntime__(tag.find('span', attrs={'class':'runtime'}).text.strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setruntime__(None)
+            self.entity.__setruntime__(None)
         
-    ## @method getgross
-    ## @param tag: a taget
-    ## @return Gross value
     def getgross(self, tag):
+        """ @method getgross
+            @param tag: a taget
+            @description hydrate the value of Gross entity  
+        """             
         try:
-            return self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text.strip())
+            self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text.strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setgross__(None)    
+            self.entity.__setgross__(None)    
 
-    ## @method getfilmname
-    ## @param tag: a taget
-    ## @return name of film
-    def gettitle(self, tag):
+    def getfilmname(self, tag):
+        """ @method getgross
+            @param tag: a taget
+            @description hydrate the name of film entity  
+        """                     
         try:
-            return self.entity.__settitle__(tag.find('h3', attrs={'class':'lister-item-header'}).find('a').text.strip())
+            self.entity.__settitle__(tag.find('h3', attrs={'class':'lister-item-header'}).find('a').text.strip())
             #return self.entity.__settitle__(tag.find('div', attrs={'class':'title_wrapper'}).find('h1', attrs={'class':''}).text)
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__settitle__(None)
+            self.entity.__settitle__(None)
 
-    ## @method gettype
-    ## @param tag: a taget
-    ## @return type of film
     def gettype(self, tag):
+        """ @method gettype
+            @param tag: a taget
+            @description hydrate the type of film entity  
+        """         
         try:
-            return self.entity.__settype__(tag.find('span', attrs={'class':'genre'}).text[1:16].replace(',',';').strip())
+            self.entity.__settype__(tag.find('span', attrs={'class':'genre'}).text[1:16].replace(',',';').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__settype__(None)
+            self.entity.__settype__(None)
 
-    ## @method getscore
-    ## @param tag: a taget
-    ## @return film metascore
     def getscore(self, tag):
+        """ @method getscore
+            @param tag: a taget
+            @description hydrate the value of film metascore entity  
+        """                 
         try:
-            return self.entity.__setscore__(tag.find('span', attrs={'class':'metascore'}).text.replace(',', '').strip())
+            self.entity.__setscore__(tag.find('span', attrs={'class':'metascore'}).text.replace(',', '').strip())
         except (TypeError, AttributeError, IndexError):
-            return self.entity.__setscore__(None)
+            self.entity.__setscore__(None)
          
-    ## @method getlink
-    ## @param tag: a taget
-    ## @return link of single page
     def getlink(self, tag):
+        """ @method getlink
+            @param tag: a taget
+            @return link of single page
+            @description find the specific target where is the liste of movie  
+        """                       
         target = tag.find('h3', attrs={'class':'lister-item-header'})
         a = target.find('a')
         _link = a['href']
         return _link
 
-    ## @method _setlink
-    ## @param tag: a taget
-    ## @return link of single page
+
     def _setlink(self, url):
+        """
+            ## @method _setlink
+            ## @param tag: a taget
+            ## @return link of single page
+        """
         return 'https://www.imdb.com/'+ str(url)+'?ref_=adv_li_tt'
 
-    ## @method _setlink
-    ## @param tag: a taget
-    ## @return link of single page
+
     def paginate(self, index):
+        """
+            ## @method _setlink
+            ## @param tag: a taget
+            ## @return link of single page
+        """        
         return 'https://www.imdb.com/search/title/?title_type=feature&num_votes=5000,&sort=user_rating,desc&start='+ str(index)+'&ref_=adv_nxt'
 
-    ## here is the request into the single page of movie
-    ## @method getlink
-    ## @param tag: a taget
-    ## @return link of single page
     def getlink(self, tag):
+        """ 
+            ## here is the request into the single page of movie
+            ## @method getlink
+            ## @param tag: a taget
+            ## @return link of single page
+        """        
         target = tag.find('h3', attrs={'class':'lister-item-header'})
         a = target.find('a')
         _link = a['href']
         return _link
-
-    ## end of the request into the single page of movie
