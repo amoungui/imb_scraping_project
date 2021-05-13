@@ -15,8 +15,7 @@ class Movie:
         self.country = ''
         self.location = ''
         self.review = ''
-        self.writterfilmographie = []
-        self.directorfilmographie = []
+        self.storyline = ''
         self.budget = ''
         self.opening_weekend = ''
         self.gross = ''
@@ -130,22 +129,14 @@ class Movie:
         """                 
         return self.review
     
-    def __getwritterfilmographie__(self):
-        """ @method __getwritterfilmographie__
+    def __getstoryline__(self):
+        """ @method __getstoryline__
             @param None: 
             @return writter filmographie value
-            @description get of the moive entity 
+            @description get the storyline of movie entity 
         """                         
-        return self.writterfilmographie
-    
-    def __getdirectorfilmographie__(self):
-        """ @method __getdirectorfilmographie__
-            @param None: 
-            @return director filmographie value
-            @description get of the moive entity 
-        """                 
-        return self.directorfilmographie
-        
+        return self.storyline
+            
     def __getbudget__(self):
         """ @method __getbudget__
             @param None: 
@@ -354,27 +345,16 @@ class Movie:
         else: 
             self.review = 'xxx'
     
-    def __setwritterfilmographie__(self, tag):
-        """ @method __setwritterfilmographie__
+    def __setstoryline__(self, tag):
+        """ @method __setstoryline__
             @param tag: 
             @return None
-            @description set of the moive entity 
+            @description set the storyline of moive entity 
         """                             
         if tag is not None:
-            self.writterfilmographie = tag
+            self.storyline = tag
         else: 
-            self.writterfilmographie = 'xxx'
-    
-    def __setdirectorfilmographie__(self, tag):
-        """ @method __setdirectorfilmographie__
-            @param tag: 
-            @return None
-            @description set of the moive entity 
-        """                                  
-        if tag is not None:
-            self.directorfilmographie = tag
-        else: 
-            self.directorfilmographie = 'xxx'
+            self.storyline = 'xxx'
         
     def __setbudget__(self, tag):
         """ @method __setbudget__

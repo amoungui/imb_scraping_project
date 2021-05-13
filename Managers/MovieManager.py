@@ -1,6 +1,3 @@
-import requests
-from bs4 import BeautifulSoup
-
 from Managers.EntityManager import EntityManager
 
 class MovieManager(EntityManager):
@@ -27,8 +24,7 @@ class MovieManager(EntityManager):
         self.getdirector(tags[0])
         self.getwritter(tags[0])
         self.getreview(tags[0])
-        self.getdirectorfilmographie(tags[0])
-        self.getwritterfilmographie(tags[0])
+        self.getstoryline(tags[0])
         
     def getduration(self, tag):
         """ @method getduration
@@ -202,42 +198,23 @@ class MovieManager(EntityManager):
         except (TypeError, AttributeError, IndexError):
             self.entity.__setreview__(None)
 
-    def getdirectorfilmographie(self, tag):
-        """ @method getdirectorfilmographie
+    def getstoryline(self, tag):
+        """ @method getstoryline
             @param tag: a taget
-            @description hydrate the value of list of director filmographie entity  
+            @description hydrate the value of storyline of movie entity  
         """                               
         array = []
         try:
-            r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
-            list = [i for i in r]
-            resp = requests.get('https://www.imdb.com'+str(list[0].find('a')['href'])+'?ref_=tt_ov_dr')
-            result = BeautifulSoup(resp.text, 'html.parser')
-            s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
-            for i in s1:
-                array.append(i.find('a').text.strip())
-            self.entity.__setdirectorfilmographie__(array)#      
+            r = tag.find('div', attrs={'id':'titleStoryLine'}).find('div', attrs={'class':'inline canwrap'})
+#            list = [i for i in r]
+#            resp = requests.get('https://www.imdb.com'+str(list[0].find('a')['href'])+'?ref_=tt_ov_dr')
+#            result = BeautifulSoup(resp.text, 'html.parser')
+#            s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
+#           for i in s1:
+            self.entity.__setstoryline__ (r.find('span').text.strip())     
         except (TypeError, AttributeError, IndexError):
-            self.entity.__setdirectorfilmographie__(None)
-          
-    def getwritterfilmographie(self, tag):
-        """ @method getwritterfilmographie
-            @param tag: a taget
-            @description hydrate the value of writter filmographie entity  
-        """         
-        array = []
-        try:
-            r = tag.find('div', attrs={'id':'title-overview-widget'}).find('div', attrs={'class':'plot_summary_wrapper'}).find_all('div', attrs={'class':'credit_summary_item'})
-            list = [i for i in r]
-            resp = requests.get('https://www.imdb.com'+str(list[1].find('a')['href'])+'?ref_=tt_ov_dr')
-            result = BeautifulSoup(resp.text, 'html.parser')
-            s1 = result.find('div', attrs={'class': 'filmo-category-section'}).find_all('div', attrs={'class': 'filmo-row'})
-            for i in s1:
-                array.append(i.find('a').text.strip())
-            self.entity.__setwritterfilmographie__(array)    
-        except (TypeError, AttributeError, IndexError):
-            self.entity.__setwritterfilmographie__(None)
-                                
+            self.entity.__setstoryline__(None)
+                                          
     def getvote(self, tag):
         """ @method getvote
             @param tag: a taget
@@ -271,7 +248,7 @@ class MovieManager(EntityManager):
     def getgross(self, tag):
         """ @method getgross
             @param tag: a taget
-            @description hydrate the value of Gross entity  
+            @description hydrate the value of Gross of the movie entity  
         """             
         try:
             self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text.strip())

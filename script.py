@@ -8,6 +8,7 @@ sys.path.append(d)
 
 import requests 
 from bs4 import BeautifulSoup 
+import time
 from Models.Movie import Movie as Movie 
 from Managers.MovieManager import MovieManager as Manager 
 
@@ -31,27 +32,22 @@ def _link(url):
 
 def main():
     entity = Movie()
-    results = []
-    url = 'https://www.imdb.com/search/title/?at=0&num_votes=5000,&sort=user_rating,desc&start=1&title_type=feature'
-    res = requests.get(url)
+    for step in range(1,13117,50):
+        url = 'https://www.imdb.com/search/title/?at=0&num_votes=5000,&sort=user_rating,desc&start='+str(step)+'&title_type=feature'
+        res = requests.get(url)
 
-    if res.ok:
-        soup = BeautifulSoup(res.text, 'html.parser')
-        tags = soup.find_all('div', attrs={'class':'lister-item-content'})
-        for tag in tags:
-            r = requests.get(_link(getlink(tag)))
-            if r.ok:
-                content = BeautifulSoup(r.text, 'html.parser')
-                manager = Manager(entity, [content, tag])
-                manager.parse_json(entity)
-                manager.to_csv()
-                #results.append(entity)
-
-#    for step in range(1,5000,50):
-#        print('page: ', step)
-#        for i in range(1, 50):
-#            print(i)
-
+        if res.ok:
+            soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
+            tags = soup.find_all('div', attrs={'class':'lister-item-content'})
+            for tag in tags:
+                r = requests.get(_link(getlink(tag)))
+                if r.ok:
+                    print('i')
+                    content = BeautifulSoup(r.text, 'html.parser')
+                    manager = Manager(entity, [content, tag])
+                    manager.parse_json(entity)
+                    manager.to_csv()
+                    time.sleep(1)
 
 if __name__ == '__main__':
     print(main())
