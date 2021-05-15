@@ -9,6 +9,7 @@ sys.path.append(d)
 import requests 
 from bs4 import BeautifulSoup 
 import time
+import json
 from Models.Movie import Movie as Movie 
 from Managers.MovieManager import MovieManager as Manager 
 
@@ -40,11 +41,13 @@ def main():
             soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
             tags = soup.find_all('div', attrs={'class':'lister-item-content'})
             for tag in tags:
-                r = requests.get(_link(getlink(tag)))
+                r = requests.get(_link(getlink(tag))) #  'https://www.imdb.com/title/tt0111161/?ref_=adv_li_tt' 
                 if r.ok:
                     print('i')
                     content = BeautifulSoup(r.text, 'html.parser')
                     manager = Manager(entity, [content, tag])
+                    #return manager.getbudget(content)
+                    #return manager.entity.__getgross__()
                     manager.parse_json(entity)
                     manager.to_csv()
                     time.sleep(1)

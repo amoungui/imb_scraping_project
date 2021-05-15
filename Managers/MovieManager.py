@@ -9,7 +9,7 @@ class MovieManager(EntityManager):
         self.getscore(tags[1])
         self.gettype(tags[1])
         self.getruntime(tags[1])
-        self.getgross(tags[1])
+        self.getgross(tags[0])
         #self.getgross(tags[1])
         self.getduration(tags[0])
         self.getrelease_date(tags[0])
@@ -44,7 +44,7 @@ class MovieManager(EntityManager):
         """                             
         try:
             r = tag.find('div', attrs={'class':'subtext'})
-            self.entity.__setrelease_date__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[0:11])
+            self.entity.__setrelease_date__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[0:])
         except (TypeError, AttributeError, IndexError):
             self.entity.__setrelease_date__(None)
 
@@ -81,9 +81,11 @@ class MovieManager(EntityManager):
         """                                          
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
-            list = [i for i in r]
-            value = list[6].split()
-            self.entity.__setbudget__(value[2].text[1:].replace(',','').strip())
+            list = []
+            for elem in r:
+                if elem.find('h4', attrs={'class': 'inline'}).text[:-1] == 'Budget':
+                    list = elem.text.replace(':', ' ').split() # replace('BDT', ' ').replace('INR', ' ')
+                    return self.entity.__setbudget__(list[1].replace(',','.').strip()) # .replace('$', '')
         except (TypeError, AttributeError, IndexError):
             self.entity.__setbudget__(None)
 
@@ -94,24 +96,28 @@ class MovieManager(EntityManager):
         """                                          
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
-            list = [i for i in r]
-            value = list[7].split()
-            self.entity.__setopening_weekend__(value[1].text.strip()[1:].replace(',', '').strip())
+            list = []
+            for elem in r:
+                if 'Opening Weekend' in elem.find('h4', attrs={'class': 'inline'}).text[:-1]:
+                    list = elem.text.replace(':', ' ').replace('USA','').split()
+                    return self.entity.__setopening_weekend__(list[2].replace('$','').replace(',','.').strip()[:-1])
         except (TypeError, AttributeError, IndexError):
             self.entity.__setopening_weekend__(None)
         
-    def getgross_(self, tag):
+    def getgross(self, tag):
         """ @method getgross_
             @param tag: a taget
             @description hydrate the value of getgross entity  
         """                                                  
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
-            list = [i for i in r]
-            value = list[8].split()
-            self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
+            list = []
+            for elem in r:
+                if 'Gross' in elem.find('h4', attrs={'class': 'inline'}).text:
+                    list = elem.text.replace(':', ' ').replace('USA','').split()
+                    return self.entity.__setgross__(list[-1].replace('$','').replace(',','.').strip())
         except (TypeError, AttributeError, IndexError):
-            self.entity.__setworldwide_gross__(None)
+            self.entity.__setgross__(None)
 
     def getworldwide_gross(self, tag):
         """ @method getworldwide_gross
@@ -120,9 +126,11 @@ class MovieManager(EntityManager):
         """        
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
-            list = [i for i in r]
-            value = list[9].split()
-            self.entity.__setworldwide_gross__(value[1].text.strip()[1:].replace(',','').strip())
+            list = []
+            for elem in r:
+                if 'Cumulative Worldwide' in elem.find('h4', attrs={'class': 'inline'}).text:
+                    list = elem.text.replace(':', ' ').replace('USA','').split()
+                    return self.entity.__setworldwide_gross__(list[-1].replace('$','').replace(',','.').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setworldwide_gross__(None)
 
@@ -245,15 +253,16 @@ class MovieManager(EntityManager):
         except (TypeError, AttributeError, IndexError):
             self.entity.__setruntime__(None)
         
-    def getgross(self, tag):
+    def getgross__(self, tag):
         """ @method getgross
             @param tag: a taget
             @description hydrate the value of Gross of the movie entity  
         """             
-        try:
+        """try:
             self.entity.__setgross__(tag.find('span', attrs={'data-value':'28,341,469'}).text.strip())
         except (TypeError, AttributeError, IndexError):
-            self.entity.__setgross__(None)    
+            self.entity.__setgross__(None) """
+        pass   
 
     def getfilmname(self, tag):
         """ @method getgross

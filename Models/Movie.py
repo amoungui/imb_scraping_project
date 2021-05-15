@@ -385,7 +385,7 @@ class Movie:
             @description set of the moive entity 
         """                       
         if tag is not None:
-            self.gross =tag
+            self.gross = tag
         else: 
             self.gross = 'xxx'
     
@@ -398,7 +398,7 @@ class Movie:
         if tag is not None:
             self.worldwide_gross = tag
         else:
-            self.worldwide_gross = 'xxx'
+            self.worldwide_gross = tag
     
     def __setruntime__(self, tag):
         """ @method __setruntime__
