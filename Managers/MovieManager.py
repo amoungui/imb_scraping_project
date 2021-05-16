@@ -44,7 +44,8 @@ class MovieManager(EntityManager):
         """                             
         try:
             r = tag.find('div', attrs={'class':'subtext'})
-            self.entity.__setrelease_date__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[0:])
+            date = r.find('a', attrs={'title': 'See more release dates'}).text.strip()[0:]
+            self.entity.__setrelease_date__(self.formate_date(self.strip_date(date)))
         except (TypeError, AttributeError, IndexError):
             self.entity.__setrelease_date__(None)
 
@@ -52,12 +53,16 @@ class MovieManager(EntityManager):
         """ @method getrelease_country
             @param tag: a taget
             @description hydrate the value of getrelease country entity  
-        """                                     
+        """   
         try:
-            r = tag.find('div', attrs={'class':'subtext'})
-            self.entity.__setrelease_country__(r.find('a', attrs={'title': 'See more release dates'}).text.strip()[12:-1])
+            r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
+            list = []
+            for elem in r:
+                if 'Country:' in elem.find('h4', attrs={'class': 'inline'}).text:
+                    list = elem.text.replace(':', ' ').split()
+                    return self.entity.__setrelease_country__(list[-1].strip())
         except (TypeError, AttributeError, IndexError):
-            self.entity.__setrelease_country__(None)
+            self.entity.__setrelease_country__(None)                                          
 
     def getfilminglocation(self, tag):
         """ @method getfilminglocation
@@ -295,43 +300,26 @@ class MovieManager(EntityManager):
         except (TypeError, AttributeError, IndexError):
             self.entity.__setscore__(None)
          
-    def getlink(self, tag):
-        """ @method getlink
+    def convert_to_dollar(self, unit, amount):
+        """ @method convert_to_dollar
             @param tag: a taget
-            @return link of single page
-            @description find the specific target where is the liste of movie  
-        """                       
-        target = tag.find('h3', attrs={'class':'lister-item-header'})
-        a = target.find('a')
-        _link = a['href']
-        return _link
-
-
-    def _setlink(self, url):
-        """
-            ## @method _setlink
-            ## @param tag: a taget
-            ## @return link of single page
-        """
-        return 'https://www.imdb.com/'+ str(url)+'?ref_=adv_li_tt'
-
-
-    def paginate(self, index):
-        """
-            ## @method _setlink
-            ## @param tag: a taget
-            ## @return link of single page
-        """        
-        return 'https://www.imdb.com/search/title/?title_type=feature&num_votes=5000,&sort=user_rating,desc&start='+ str(index)+'&ref_=adv_nxt'
-
-    def getlink(self, tag):
-        """ 
-            ## here is the request into the single page of movie
-            ## @method getlink
-            ## @param tag: a taget
-            ## @return link of single page
-        """        
-        target = tag.find('h3', attrs={'class':'lister-item-header'})
-        a = target.find('a')
-        _link = a['href']
-        return _link
+            @description conversion the amount to dollar US  
+        """                         
+        if unit == 'BDT':
+            amount = 0.012*amount
+        if unit == 'INR':
+            amount = 0.014*amount
+        return amount
+    
+    def formate_budget(self, tag):
+        """ @method formate_budget
+            @param tag: a taget
+            @description format the amount
+        """       
+        if 'BDT' in tag:
+            b = tag[3:]
+            return self.convert_to_dollarconvert_to_dollar('BDT', int(b))
+        if 'INR' in tag:
+            b = tag[4:]
+            return self.convert_to_dollar('INR', int(b))
+                             

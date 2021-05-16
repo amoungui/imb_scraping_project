@@ -398,7 +398,7 @@ class Movie:
         if tag is not None:
             self.worldwide_gross = tag
         else:
-            self.worldwide_gross = tag
+            self.worldwide_gross = 'xxx'
     
     def __setruntime__(self, tag):
         """ @method __setruntime__

@@ -47,11 +47,10 @@ def main():
                     content = BeautifulSoup(r.text, 'html.parser')
                     manager = Manager(entity, [content, tag])
                     #return manager.getbudget(content)
-                    #return manager.entity.__getgross__()
+                    #return manager.entity.__getrelease_country__()
                     manager.parse_json(entity)
                     manager.to_csv()
                     time.sleep(1)
 
 if __name__ == '__main__':
     print(main())
-
