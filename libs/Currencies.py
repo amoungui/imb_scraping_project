@@ -45,25 +45,25 @@ class ConverterCurrency:
         if '$' not in item:
             dict = {
                 'code': item[0:3],
-                'amount': float(item[3:].replace('.',''))
+                'amount': round(float(item[3:].replace('.','')), 2)
             }
         if '$' in item:
             dict = {
                 'code': 'USD',
-                'amount': float(item[3:].replace('.',''))
+                'amount': round(float(item[1:].replace('.','')), 2)
             }  
             init_current, code, eq, amount, usd = self.convert(dict['amount'], dict['code'], "USD")
         return self.convert(dict['amount'], dict['code'], "USD")
     
     def current_convert(self, obj):
         a,b,c,d,e = (self.format_to_convert(obj))
-        return d
+        return round(d, 2)
         
 
 if __name__ == '__main__':
 
     converter = ConverterCurrency()
-    m1 = 'BDT35.000.000'
+    m1 = '$25.000.000'
     m2 = 'INR15.000.000'
 
     print(converter.current_convert(m1))

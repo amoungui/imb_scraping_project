@@ -1,4 +1,5 @@
 from Managers.EntityManager import EntityManager
+from libs.Currencies import ConverterCurrency
 
 class MovieManager(EntityManager):
     def __init__(self, entity, tags:list):
@@ -83,14 +84,17 @@ class MovieManager(EntityManager):
         """ @method getbudget
             @param tag: a taget
             @description hydrate the value of budget entity  
-        """                                          
+        """           
+        converter = ConverterCurrency()  
+        amount = ''                             
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = []
             for elem in r:
                 if elem.find('h4', attrs={'class': 'inline'}).text[:-1] == 'Budget':
                     list = elem.text.replace(':', ' ').split() # replace('BDT', ' ').replace('INR', ' ')
-                    return self.entity.__setbudget__(list[1].replace(',','.').strip()) # .replace('$', '')
+                    amount = ''+ list[1].replace(',','.').strip()
+                    return self.entity.__setbudget__(converter.current_convert(amount)) # .replace('$', '')
         except (TypeError, AttributeError, IndexError):
             self.entity.__setbudget__(None)
 
