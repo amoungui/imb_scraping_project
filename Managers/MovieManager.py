@@ -299,27 +299,4 @@ class MovieManager(EntityManager):
             self.entity.__setscore__(tag.find('span', attrs={'class':'metascore'}).text.replace(',', '').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setscore__(None)
-         
-    def convert_to_dollar(self, unit, amount):
-        """ @method convert_to_dollar
-            @param tag: a taget
-            @description conversion the amount to dollar US  
-        """                         
-        if unit == 'BDT':
-            amount = 0.012*amount
-        if unit == 'INR':
-            amount = 0.014*amount
-        return amount
-    
-    def formate_budget(self, tag):
-        """ @method formate_budget
-            @param tag: a taget
-            @description format the amount
-        """       
-        if 'BDT' in tag:
-            b = tag[3:]
-            return self.convert_to_dollarconvert_to_dollar('BDT', int(b))
-        if 'INR' in tag:
-            b = tag[4:]
-            return self.convert_to_dollar('INR', int(b))
                              
