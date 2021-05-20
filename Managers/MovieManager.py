@@ -138,14 +138,17 @@ class MovieManager(EntityManager):
         """ @method getworldwide_gross
             @param tag: a taget
             @description hydrate the value of worldwide gross entity  
-        """             
+        """         
+        converter = ConverterCurrency()  
+        amount = ''                        
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = []
             for elem in r:
                 if 'Cumulative Worldwide' in elem.find('h4', attrs={'class': 'inline'}).text:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    return self.entity.__setworldwide_gross__(list[-1].replace('$','').replace(',','').strip())
+                    amount = '' + list[-1].replace('$','').replace(',','').strip()
+                    return self.entity.__setworldwide_gross__(converter.current_convert(amount))
         except (TypeError, AttributeError, IndexError):
             self.entity.__setworldwide_gross__(None)
 
