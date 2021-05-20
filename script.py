@@ -41,7 +41,7 @@ def main():
             soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
             tags = soup.find_all('div', attrs={'class':'lister-item-content'})
             for tag in tags:
-                r = requests.get(_link(getlink(tag))) # 'https://www.imdb.com/title/tt0111161/?ref_=adv_li_tt'    
+                r = requests.get(_link(getlink(tag))) # 'https://www.imdb.com/title/tt0111161/?ref_=adv_li_tt'
                 if r.ok:
                     print('i')
                     content = BeautifulSoup(r.text, 'html.parser')
@@ -50,7 +50,7 @@ def main():
                     #return manager.entity.__getworldwide_gross__()
                     manager.parse_json(entity)
                     manager.to_csv()
-                    time.sleep(1)
+                    time.sleep(2)
 
 if __name__ == '__main__':
     print(main())

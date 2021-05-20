@@ -102,17 +102,14 @@ class MovieManager(EntityManager):
         """ @method getopening_weekend
             @param tag: a taget
             @description hydrate the value of getopening weekend entity  
-        """                           
-        converter = ConverterCurrency()  
-        amount = ''                       
+        """                                          
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = []
             for elem in r:
                 if 'Opening Weekend' in elem.find('h4', attrs={'class': 'inline'}).text[:-1]:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    amount = ''+ list[2].replace(',','.').strip()[:-1] 
-                    return self.entity.__setopening_weekend__(converter.current_convert(amount))
+                    return self.entity.__setopening_weekend__(list[2].replace('$','').replace(',','').strip()[:-1])
         except (TypeError, AttributeError, IndexError):
             self.entity.__setopening_weekend__(None)
         
@@ -120,17 +117,14 @@ class MovieManager(EntityManager):
         """ @method getgross_
             @param tag: a taget
             @description hydrate the value of getgross entity  
-        """             
-        converter = ConverterCurrency()  
-        amount = ''                                                  
+        """                                                  
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = []
             for elem in r:
                 if 'Gross' in elem.find('h4', attrs={'class': 'inline'}).text:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    amount = '' + list[-1].replace(',','').strip()
-                    return self.entity.__setgross__(converter.current_convert(amount))
+                    return self.entity.__setgross__(list[-1].replace('$','').replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setgross__(None)
 
@@ -138,17 +132,14 @@ class MovieManager(EntityManager):
         """ @method getworldwide_gross
             @param tag: a taget
             @description hydrate the value of worldwide gross entity  
-        """         
-        converter = ConverterCurrency()  
-        amount = ''                        
+        """        
         try:
             r = tag.find('div', attrs={'id':'titleDetails'}).find_all('div', attrs={'class':'txt-block'})
             list = []
             for elem in r:
                 if 'Cumulative Worldwide' in elem.find('h4', attrs={'class': 'inline'}).text:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    amount = '' + list[-1].replace('$','').replace(',','').strip()
-                    return self.entity.__setworldwide_gross__(converter.current_convert(amount))
+                    return self.entity.__setworldwide_gross__(list[-1].replace('$','').replace(',','').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setworldwide_gross__(None)
 
@@ -312,4 +303,27 @@ class MovieManager(EntityManager):
             self.entity.__setscore__(tag.find('span', attrs={'class':'metascore'}).text.replace(',', '').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setscore__(None)
+         
+    def convert_to_dollar(self, unit, amount):
+        """ @method convert_to_dollar
+            @param tag: a taget
+            @description conversion the amount to dollar US  
+        """                         
+        if unit == 'BDT':
+            amount = 0.012*amount
+        if unit == 'INR':
+            amount = 0.014*amount
+        return amount
+    
+    def formate_budget(self, tag):
+        """ @method formate_budget
+            @param tag: a taget
+            @description format the amount
+        """       
+        if 'BDT' in tag:
+            b = tag[3:]
+            return self.convert_to_dollarconvert_to_dollar('BDT', int(b))
+        if 'INR' in tag:
+            b = tag[4:]
+            return self.convert_to_dollar('INR', int(b))
                              

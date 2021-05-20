@@ -8,7 +8,7 @@ class ConverterCurrency:
 
     def __init__(self):
         http = urllib3.PoolManager()
-        self.url = 'http://data.fixer.io/api/latest?access_key=199ff8d0cee4c477b2c1a44656e07e55'
+        self.url = 'http://data.fixer.io/api/latest?access_key=d572ecd6085f71e5427175b2f0239678'
         request = http.request('GET', self.url)
         data = json.loads(request.data.decode('utf8'))
         self.rates = data["rates"]
@@ -52,7 +52,7 @@ class ConverterCurrency:
                 'code': 'USD',
                 'amount': round(float(item[1:].replace('.','')), 2)
             }  
-            init_current, code, eq, amount, usd = self.convert(dict['amount'], dict['code'], "USD")
+            #init_current, code, eq, amount, usd = self.convert(dict['amount'], dict['code'], "USD")
         return self.convert(dict['amount'], dict['code'], "USD")
     
     def current_convert(self, obj):
@@ -63,7 +63,9 @@ class ConverterCurrency:
 if __name__ == '__main__':
 
     converter = ConverterCurrency()
-    m1 = '$25.000.000'
-    m2 = 'INR15.000.000'
-
-    print(converter.current_convert(m1))
+    d = {
+        'm1' :'$25.000.000',
+        'm2' :'INR15.000.000'
+    }
+    for key, value in d.items():
+        print(converter.current_convert(value))
