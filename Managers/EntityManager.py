@@ -4,11 +4,7 @@ import csv
 class EntityManager:
     entity = None
     dataset = []
-        
-#    def hydrater(self, Objects:list):            
-#        for obj in Objects:
-#            self.parse_json(obj)
-    
+
     def parse_json(self, entity):
         """ @method parse_json
             @param Object: entity 
@@ -43,7 +39,24 @@ class EntityManager:
         
         return  self.dataset.append(data) #json.dumps(self.dataset, indent=2)  json.dumps(data, indent=2) 
         
-        
+    def parse_metric_to_json(self, entity):
+        """ @method parse_metric_to_json
+            @param Object: entity 
+            @return List 
+            @description Construct a dictionary from the object pass as a parameter 
+                        and add it to the attribute of the class which is a list. 
+                        it thus returns a dictionary list 
+        """                
+        data = {
+            'Country Name': entity.__getcountry__(),
+            '2018': entity.__year_2018__(),
+            '2017': entity.__year_2017__(),
+            '2016': entity.__year_2016__(),
+            '2015': entity.__year_2015__(),
+            '2014':entity.__year_2014__()
+        }           
+        return  self.dataset.append(data)
+
     def to_csv(self):
         """ @method to_csv
             @param None: 
@@ -70,7 +83,7 @@ class EntityManager:
         """     
         i = String.find('(')                  
         return String[0:i]
-    
+
     def formate_date(self, data):
         d = data.split()
         month = { 

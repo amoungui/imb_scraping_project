@@ -109,7 +109,7 @@ class MovieManager(EntityManager):
             for elem in r:
                 if 'Opening Weekend' in elem.find('h4', attrs={'class': 'inline'}).text[:-1]:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    return self.entity.__setopening_weekend__(list[2].replace('$','').replace(',','').strip()[:-1])
+                    return self.entity.__setopening_weekend__(list[2].replace('$','').replace(',','.').strip()[:-1])
         except (TypeError, AttributeError, IndexError):
             self.entity.__setopening_weekend__(None)
         
@@ -124,7 +124,7 @@ class MovieManager(EntityManager):
             for elem in r:
                 if 'Gross' in elem.find('h4', attrs={'class': 'inline'}).text:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    return self.entity.__setgross__(list[-1].replace('$','').replace(',','').strip())
+                    return self.entity.__setgross__(list[-1].replace('$','').replace(',','.').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setgross__(None)
 
@@ -139,7 +139,7 @@ class MovieManager(EntityManager):
             for elem in r:
                 if 'Cumulative Worldwide' in elem.find('h4', attrs={'class': 'inline'}).text:
                     list = elem.text.replace(':', ' ').replace('USA','').split()
-                    return self.entity.__setworldwide_gross__(list[-1].replace('$','').replace(',','').strip())
+                    return self.entity.__setworldwide_gross__(list[-1].replace('$','').replace(',','.').strip())
         except (TypeError, AttributeError, IndexError):
             self.entity.__setworldwide_gross__(None)
 
