@@ -6,3 +6,4 @@ requests                           2.22.0
 bs4                                1.9.5         
 pandas                             2.8.1
 urllib3                             
+seaborn

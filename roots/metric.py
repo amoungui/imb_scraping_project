@@ -6,11 +6,11 @@ from os.path import dirname, abspath
 d = dirname(dirname(abspath(__file__)))
 sys.path.append(d)
 
-from Models.Movie import Movie as Movie 
+import requests 
+from bs4 import BeautifulSoup 
 from Models.Metric import Metric
-from Managers.MovieManager import MovieManager as Manager 
 from Managers.MetricManager import MetricManager
-from roots.movie import *
+
 
 
 

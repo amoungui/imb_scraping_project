@@ -8,7 +8,7 @@ class EntityManager:
     def parse_json(self, entity):
         """ @method parse_json
             @param Object: entity 
-            @return List 
+            @return List of dictionnary
             @description Construct a dictionary from the object pass as a parameter 
                         and add it to the attribute of the class which is a list. 
                         it thus returns a dictionary list 
@@ -66,12 +66,12 @@ class EntityManager:
         directory = os.path.dirname(os.path.dirname(__file__)) # we get the right path.
         path_to_file = os.path.join(directory, "data", 'dataset.csv') # with this path, we go inside the folder `data` and get the file.
         
-        with open(path_to_file, 'w', encoding='utf-8') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=self.dataset[0].keys())
-            writer.writeheader()
+        with open(path_to_file, 'w', encoding='utf-8') as csv_file: # we open the file as csv_file in w mode.
+            writer = csv.DictWriter(csv_file, fieldnames=self.dataset[0].keys()) # instatiation of Writer objet that get the file and the fieldnames
+            writer.writeheader() # we writer the header of the file
             
             for row in self.dataset:
-                writer.writerow(row)
+                writer.writerow(row) # iteration into the dataset to write each row into the csv_file
         
         print('dataset.csv has been written successfully!')
         
@@ -79,12 +79,20 @@ class EntityManager:
         """ @method strip_date
             @param tag: a taget
             @return data
-            @description move to the date the name of de country release   
+            @description move to the date the name of the country release   
         """     
         i = String.find('(')                  
         return String[0:i]
 
     def formate_date(self, data):
+        """[summary: format the date of the release date]
+
+        Args:
+            data (str): the date that we want formate
+
+        Returns:
+            [str]: the new date formated
+        """
         d = data.split()
         month = { 
             'January': '01',

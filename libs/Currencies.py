@@ -17,12 +17,12 @@ class ConverterCurrency:
         """[summary]
 
         Args:
-            amount ([type]): [description]
-            from_currency ([type]): [description]
-            to_currency ([type]): [description]
+            amount (int or float): [amount that we want to convert]
+            from_currency (str): the code of devise we want to convert
+            to_currency (str): initial currency of the amount
 
         Returns:
-            [type]: [description]
+            tuple: content of information about the convertion
         """
         initial_amount = amount
         if from_currency != "EUR":
@@ -33,7 +33,7 @@ class ConverterCurrency:
             return initial_amount, from_currency, '=', amount * self.rates[to_currency], to_currency
 
     def format_to_convert(self, item):
-        """[summary]
+        """[summary: extract the the amount value and the code of devise]
 
         Args:
             item (str): description
@@ -56,6 +56,14 @@ class ConverterCurrency:
         return self.convert(dict['amount'], dict['code'], "USD")
     
     def current_convert(self, obj):
+        """[summary]
+
+        Args:
+            obj (tuple): 
+
+        Returns:
+            [dictionnary]: 
+        """
         a,b,c,d,e = (self.format_to_convert(obj))
         return round(d, 2)
         
