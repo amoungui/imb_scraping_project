@@ -18,7 +18,7 @@ class Metric:
         """                
         return self.country 
     
-    def __year_2018__(self):
+    def __gdp_2018__(self):
         """ @method __year_2018__
             @param None: 
             @return gross value
@@ -26,7 +26,7 @@ class Metric:
         """                
         return self.year_2018    
     
-    def __year_2017__(self):
+    def __gdp_2017__(self):
         """ @method __year_2017__
             @param None: 
             @return gross value
@@ -34,7 +34,7 @@ class Metric:
         """                
         return self.year_2017    
     
-    def __year_2016__(self):
+    def __gdp_2016__(self):
         """ @method __year_2016__
             @param None: 
             @return gross value
@@ -42,7 +42,7 @@ class Metric:
         """                
         return self.year_2016       
     
-    def __year_2015__(self):
+    def __gdp_2015__(self):
         """ @method __year_2015__
             @param None: 
             @return gross value
@@ -50,7 +50,7 @@ class Metric:
         """                
         return self.year_2015       
     
-    def __year_2014__(self):
+    def __gdp_2014__(self):
         """ @method __year_2014__
             @param None: 
             @return gross value
@@ -70,7 +70,7 @@ class Metric:
         else: 
             self.country = 'xxx'     
     
-    def __setyear_2018__(self, tag):
+    def __setgdp_2018__(self, tag):
         """ @method __setcountry__
             @param tag: 
             @return None
@@ -81,7 +81,7 @@ class Metric:
         else: 
             self.year_2018 = 'xxx'     
     
-    def __setyear_2017__(self, tag):
+    def __setgdp_2017__(self, tag):
         """ @method __setyear_2017__
             @param tag: 
             @return None
@@ -92,7 +92,7 @@ class Metric:
         else: 
             self.year_2017 = 'xxx'  
             
-    def __setyear_2016__(self, tag):
+    def __setgdp_2016__(self, tag):
         """ @method __setyear_2016__
             @param tag: 
             @return None
@@ -103,7 +103,7 @@ class Metric:
         else: 
             self.year_2016 = 'xxx'     
             
-    def __setyear_2015__(self, tag):
+    def __setgdp_2015__(self, tag):
         """ @method __setyear_2015__
             @param tag: 
             @return None
@@ -114,7 +114,7 @@ class Metric:
         else: 
             self.year_2015 = 'xxx'             
             
-    def __setyear_2014__(self, tag):
+    def __setgdp_2014__(self, tag):
         """ @method __setyear_2014__
             @param tag: 
             @return None

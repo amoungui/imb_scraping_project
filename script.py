@@ -7,9 +7,6 @@ d = dirname(dirname(abspath(__file__)))
 sys.path.append(d)
 
 from Models.Movie import Movie as Movie 
-from Models.Metric import Metric
-from Managers.MovieManager import MovieManager as Manager 
-from Managers.MetricManager import MetricManager
 from roots.movie import *
 from roots.metric import *
 
@@ -32,7 +29,7 @@ def run():
                 metric_launcher() # launch the script to scrap the GDP informations                  
             else :                                                         
                 print ("Un nombre entre 1 et 2, s.v.p.")                
-            print ('Voulez-vous continuer le scraping?\n Choisissez un nombre de 1 à 2 (ou zéro pour terminer) '),
+            print ('Voulez-vous continuer le scraping?\n Choisissez un nombre de 1 à 2 (ou zéro pour terminer/ Ctrl + c pour arrter le script) '),
             a = input()                                                    
         print ("Vous avez entré zéro :")                                     
         print ("L'exercice est donc terminé.")
