@@ -63,8 +63,8 @@ class EntityManager:
             @return data
             @description move to the date the name of the country release   
         """     
-        i = String.find('(')                  
-        return String[0:i]
+        i = String.find('(') # get the first position of the tag               
+        return String[0:i] # slice the string 
 
     def formate_date(self, data):
         """[summary: format the date of the release date]
