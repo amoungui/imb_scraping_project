@@ -28,11 +28,6 @@ def getlink(tag):
     return _link
 
 def _link(url):
-    """ @method _link
-        @param tag: a taget
-        @return link of single page
-    """     
-    
     """[summary: construct the link of the single page of one movie]
 
     Args:
@@ -47,12 +42,13 @@ def movie_launcher():
     """[summary: launch the script to scrap all information of imb movie platform]
     """
     entity = Movie() # instantiation of the movie objet
-    for step in range(1,13117,50): 
+    for step in range(1,13117,50):  # we loop into 13117 movies that contains the imb
+        # build the url of each page
         url = 'https://www.imdb.com/search/title/?at=0&num_votes=5000,&sort=user_rating,desc&start='+str(step)+'&title_type=feature'
         res = requests.get(url)
 
         if res.ok:
-            soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
+            soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
             tags = soup.find_all('div', attrs={'class':'lister-item-content'})
             for tag in tags:
                 r = requests.get(_link(getlink(tag))) # 'https://www.imdb.com/title/tt0111161/?ref_=adv_li_tt'

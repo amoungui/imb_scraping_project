@@ -39,74 +39,74 @@ def metric_launcher():
              'manufacturing-output'] # liste of the url of the page we want to scraping
     for link in links:     # we iterate in into each url
         if link in 'gdp-gross-domestic-product': # we verify if the current link match to url that we want to
-            url = 'https://www.macrotrends.net/countries/ranking/'+link
-            res = requests.get(url)
+            url = 'https://www.macrotrends.net/countries/ranking/'+link # build the url of the page
+            res = requests.get(url) # get the response of the requests 
             
             if res.ok:
-                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
-                tags = soup.find('tbody').find_all('tr')
-                for tag in tags:
-                    manager1 =  MetricManager(gdp, tag.find_all('td'))
-                    manager1.gdp_to_json(gdp)
-                    manager1.gdp_to_csv()
+                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
+                tags = soup.find('tbody').find_all('tr') # we register all the tr target into the tags list
+                for tag in tags: # iterate the tags list
+                    manager1 =  MetricManager(gdp, tag.find_all('td')) # for each tag of tags list we initialize the manager
+                    manager1.gdp_to_json(gdp) # parse the new object to a disctionnary
+                    manager1.gdp_to_csv() # register the object into the csv file
                     
-        if link in 'gdp-growth-rate':
-            url = 'https://www.macrotrends.net/countries/ranking/'+link
-            res = requests.get(url)
+        if link in 'gdp-growth-rate': # we verify if the current link match to url that we want to
+            url = 'https://www.macrotrends.net/countries/ranking/'+link # build the url of the page
+            res = requests.get(url) # get the response of the requests 
             
             if res.ok:
-                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
-                tags = soup.find('tbody').find_all('tr')
-                for tag in tags:
-                    manager2 =  RateManager(rate, tag.find_all('td'))
-                    manager2.rate_to_json(rate)
-                    manager2.rate_to_csv()     
+                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
+                tags = soup.find('tbody').find_all('tr') # we register all the tr target into the tags list
+                for tag in tags: # iterate the tags list
+                    manager2 =  RateManager(rate, tag.find_all('td')) # for each tag of tags list we initialize the manager
+                    manager2.rate_to_json(rate) # parse the new object to a disctionnary
+                    manager2.rate_to_csv() # register the object into the csv file
                     
-        if link in 'gdp-per-capita':
-            url = 'https://www.macrotrends.net/countries/ranking/'+link
-            res = requests.get(url)
+        if link in 'gdp-per-capita': # we verify if the current link match to url that we want to
+            url = 'https://www.macrotrends.net/countries/ranking/'+link # build the url of the page
+            res = requests.get(url) # get the response of the requests
             
             if res.ok:
-                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
-                tags = soup.find('tbody').find_all('tr')
-                for tag in tags:
-                    manager3 =  CapitaManager(capita, tag.find_all('td'))
-                    manager3.capita_to_json(capita)
-                    manager3.capita_to_csv()                         
+                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
+                tags = soup.find('tbody').find_all('tr') # we register all the tr target into the tags list
+                for tag in tags: # iterate the tags list
+                    manager3 =  CapitaManager(capita, tag.find_all('td')) # for each tag of tags list we initialize the manager
+                    manager3.capita_to_json(capita) # parse the new object to a disctionnary
+                    manager3.capita_to_csv() # register the object into the csv file                        
                        
-        if link in 'debt-to-gdp-ratio':
-            url = 'https://www.macrotrends.net/countries/ranking/'+link
-            res = requests.get(url)
+        if link in 'debt-to-gdp-ratio': # we verify if the current link match to url that we want to
+            url = 'https://www.macrotrends.net/countries/ranking/'+link # build the url of the page
+            res = requests.get(url) # get the response of the requests
             
             if res.ok:
-                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
-                tags = soup.find('tbody').find_all('tr')
+                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
+                tags = soup.find('tbody').find_all('tr') # we register all the tr target into the tags list
                 for tag in tags:
-                    manager4 =  DebtManager(debt, tag.find_all('td'))
-                    manager4.debt_to_json(debt)
-                    manager4.debt_to_csv()      
+                    manager4 =  DebtManager(debt, tag.find_all('td')) # for each tag of tags list we initialize the manager
+                    manager4.debt_to_json(debt) # parse the new object to a disctionnary
+                    manager4.debt_to_csv()      # register the object into the csv file
                     
-        if link in 'inflation-rate-cpi':
-            url = 'https://www.macrotrends.net/countries/ranking/'+link
-            res = requests.get(url)
+        if link in 'inflation-rate-cpi': # we verify if the current link match to url that we want to
+            url = 'https://www.macrotrends.net/countries/ranking/'+link # build the url of the page
+            res = requests.get(url) # get the response of the requests
             
             if res.ok:
-                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
-                tags = soup.find('tbody').find_all('tr')
+                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
+                tags = soup.find('tbody').find_all('tr') 
                 for tag in tags:
-                    manager5 =  InflationManager(inflation, tag.find_all('td'))
-                    manager5.inflation_to_json(inflation)
-                    manager5.inflation_to_csv()      
+                    manager5 =  InflationManager(inflation, tag.find_all('td')) # for each tag of tags list we initialize the manager
+                    manager5.inflation_to_json(inflation)# parse the new object to a disctionnary
+                    manager5.inflation_to_csv() # register the object into the csv file     
                     
-        if link in 'manufacturing-output':
-            url = 'https://www.macrotrends.net/countries/ranking/'+link
-            res = requests.get(url)
+        if link in 'manufacturing-output': # we verify if the current link match to url that we want to
+            url = 'https://www.macrotrends.net/countries/ranking/'+link # build the url of the page
+            res = requests.get(url) # get the response of the requests
             
             if res.ok:
-                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
+                soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser') # we get the soup content
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager6 =  ManufacturingManager(manufacturing, tag.find_all('td'))
+                    manager6 =  ManufacturingManager(manufacturing, tag.find_all('td')) # for each tag of tags list we initialize the manager
                     manager6.manufact_to_json(manufacturing)
                     manager6.manufact_to_csv()                                                                     
                        
