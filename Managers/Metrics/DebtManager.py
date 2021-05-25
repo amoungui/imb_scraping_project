@@ -3,6 +3,7 @@ import csv
 from Managers.EntityManager import EntityManager
 
 class DebtManager(EntityManager):
+    dataset = []
     def __init__(self, entity, tags:list):
         self.entity = entity
         self.getcountry(tags[0])
@@ -72,7 +73,7 @@ class DebtManager(EntityManager):
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setdebt_2014__(None)         
 
-    def to_json(self, entity):
+    def debt_to_json(self, entity):
         """ @method to_json
             @param Object: entity 
             @return List 
@@ -90,7 +91,7 @@ class DebtManager(EntityManager):
         }           
         return  self.dataset.append(data)
                                 
-    def to_csv(self):
+    def debt_to_csv(self):
         """ @method to_csv
             @param None: 
             @return None

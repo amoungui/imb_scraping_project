@@ -3,6 +3,7 @@ import csv
 from Managers.EntityManager import EntityManager
 
 class MetricManager(EntityManager):
+    dataset = []    
     def __init__(self, entity, tags:list):
         self.entity = entity
         self.getcountry(tags[0])
@@ -72,7 +73,7 @@ class MetricManager(EntityManager):
         except (TypeError, AttributeError, IndexError):
             return self.entity.__setgdp_2014__(None)         
 
-    def parse_metric_to_json(self, entity):
+    def gdp_to_json(self, entity):
         """ @method parse_metric_to_json
             @param Object: entity 
             @return List 

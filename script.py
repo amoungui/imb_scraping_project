@@ -21,8 +21,8 @@ def run():
     """
     try:
         print ('tapez:\n 1. Pour executer le script de scraping du site imb: \n 2. Pour executer le script de scraping du site macrotrends:'),
-        a = int(input())                                                  
-        while a != 0: # l'opérateur != signifie "différent de"             
+        a = int(input())                                                
+        while a != 0:              
             if a == 1: 
                 movie_launcher() # launch the script to scrap the movies informations
             elif a == 2:                                  
@@ -30,7 +30,7 @@ def run():
             else :                                                         
                 print ("Un nombre entre 1 et 2, s.v.p.")                
             print ('Voulez-vous continuer le scraping?\n Choisissez un nombre de 1 à 2 (ou zéro pour terminer/ Ctrl + c pour arrter le script) '),
-            a = input()                                                    
+            a = int(input())                                                     
         print ("Vous avez entré zéro :")                                     
         print ("L'exercice est donc terminé.")
     except (ValueError, AttributeError, IndexError):

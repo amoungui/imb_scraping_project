@@ -25,15 +25,20 @@ from Managers.Metrics.ManufacturingManager import ManufacturingManager
 def metric_launcher():
     """[the method that run the script]
     """
-    gdp = Metric()
-    rate = Rate()
-    debt = Debt()
-    capita = Capita()
-    inflation = Inflation()
-    manufacturing = Manufacturing()
-    links = ['gdp-gross-domestic-product', 'gdp-growth-rate', 'gdp-per-capita', 'debt-to-gdp-ratio', 'inflation-rate-cpi', 'manufacturing-output']
-    for link in links:     
-        if link in 'gdp-gross-domestic-product':
+    gdp = Metric() # instantiation of objet gdp
+    rate = Rate() # instantiation of objet rate
+    debt = Debt() # instantiation of objet debt
+    capita = Capita() # instantiation of objet capita
+    inflation = Inflation() # instantiation of objet inflation
+    manufacturing = Manufacturing() # instantiation of objet gdp
+    links = ['gdp-gross-domestic-product', 
+             'gdp-growth-rate', 
+             'gdp-per-capita', 
+             'debt-to-gdp-ratio', 
+             'inflation-rate-cpi', 
+             'manufacturing-output'] # liste of the url of the page we want to scraping
+    for link in links:     # we iterate in into each url
+        if link in 'gdp-gross-domestic-product': # we verify if the current link match to url that we want to
             url = 'https://www.macrotrends.net/countries/ranking/'+link
             res = requests.get(url)
             
@@ -41,9 +46,9 @@ def metric_launcher():
                 soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager =  MetricManager(gdp, tag.find_all('td'))
-                    manager.parse_metric_to_json(gdp)
-                    manager.gdp_to_csv()
+                    manager1 =  MetricManager(gdp, tag.find_all('td'))
+                    manager1.gdp_to_json(gdp)
+                    manager1.gdp_to_csv()
                     
         if link in 'gdp-growth-rate':
             url = 'https://www.macrotrends.net/countries/ranking/'+link
@@ -53,9 +58,9 @@ def metric_launcher():
                 soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager =  RateManager(rate, tag.find_all('td'))
-                    manager.to_json(rate)
-                    manager.to_csv()     
+                    manager2 =  RateManager(rate, tag.find_all('td'))
+                    manager2.rate_to_json(rate)
+                    manager2.rate_to_csv()     
                     
         if link in 'gdp-per-capita':
             url = 'https://www.macrotrends.net/countries/ranking/'+link
@@ -65,9 +70,9 @@ def metric_launcher():
                 soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager =  CapitaManager(capita, tag.find_all('td'))
-                    manager.to_json(capita)
-                    manager.to_csv()                         
+                    manager3 =  CapitaManager(capita, tag.find_all('td'))
+                    manager3.capita_to_json(capita)
+                    manager3.capita_to_csv()                         
                        
         if link in 'debt-to-gdp-ratio':
             url = 'https://www.macrotrends.net/countries/ranking/'+link
@@ -77,9 +82,9 @@ def metric_launcher():
                 soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager =  DebtManager(debt, tag.find_all('td'))
-                    manager.to_json(debt)
-                    manager.to_csv()      
+                    manager4 =  DebtManager(debt, tag.find_all('td'))
+                    manager4.debt_to_json(debt)
+                    manager4.debt_to_csv()      
                     
         if link in 'inflation-rate-cpi':
             url = 'https://www.macrotrends.net/countries/ranking/'+link
@@ -89,9 +94,9 @@ def metric_launcher():
                 soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager =  InflationManager(inflation, tag.find_all('td'))
-                    manager.to_json(inflation)
-                    manager.to_csv()      
+                    manager5 =  InflationManager(inflation, tag.find_all('td'))
+                    manager5.inflation_to_json(inflation)
+                    manager5.inflation_to_csv()      
                     
         if link in 'manufacturing-output':
             url = 'https://www.macrotrends.net/countries/ranking/'+link
@@ -101,9 +106,9 @@ def metric_launcher():
                 soup = BeautifulSoup(res.content.decode('utf-8', 'ignore'), 'html.parser')
                 tags = soup.find('tbody').find_all('tr')
                 for tag in tags:
-                    manager =  ManufacturingManager(manufacturing, tag.find_all('td'))
-                    manager.to_json(manufacturing)
-                    manager.to_csv()                                                                     
+                    manager6 =  ManufacturingManager(manufacturing, tag.find_all('td'))
+                    manager6.manufact_to_json(manufacturing)
+                    manager6.manufact_to_csv()                                                                     
                        
 if __name__ == '__main__':
     print(metric_launcher())

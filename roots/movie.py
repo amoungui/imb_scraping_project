@@ -62,7 +62,7 @@ def movie_launcher():
                     manager = Manager(entity, [content, tag]) # initialization of Manager  of movie 
                     manager.parse_json(entity) # convert the current objet to dictionnary
                     manager.to_csv() # register the current entity of movie into the csv file
-                    time.sleep(3)
+                    time.sleep(4)
 
 if __name__ == '__main__':
     print(movie_launcher())

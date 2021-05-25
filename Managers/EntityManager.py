@@ -96,6 +96,8 @@ class EntityManager:
         if len(d) == 3:
             new_date = ''+d[2]+'-'+month[d[1]]+'-'+d[0]
         if len(d) == 1:
-            new_date = ''+d[0]+'-'+'January'+'-'+'01'
+            new_date = ''+d[0]+'-'+month['January']+'-'+'01'
+        if d in 'xxx':
+            new_date = ''+'1975'+'-'+month['January']+'-'+'01'            
         return new_date    
         

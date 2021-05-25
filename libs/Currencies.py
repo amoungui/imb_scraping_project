@@ -8,10 +8,10 @@ class ConverterCurrency:
 
     def __init__(self):
         http = urllib3.PoolManager()
-        self.url = 'http://data.fixer.io/api/latest?access_key=d572ecd6085f71e5427175b2f0239678'
+        self.url = 'http://data.fixer.io/api/latest?access_key=fcb5609d6bf6edf101c4b887de14c405'
         request = http.request('GET', self.url)
-        data = json.loads(request.data.decode('utf8'))
-        self.rates = data["rates"]
+        data = json.loads(request.data.decode('utf8'))# load data to json 
+        self.rates = data["rates"] # set the rate
 
     def convert(self, amount, from_currency, to_currency):
         """[summary]
@@ -24,14 +24,18 @@ class ConverterCurrency:
         Returns:
             tuple: content of information about the convertion
         """
-        initial_amount = amount
-        if from_currency != "EUR":
-            amount = amount / self.rates[from_currency]
-        if to_currency == "EUR":
+        try:
+            initial_amount = amount
+            if from_currency != "EUR":
+                amount = amount / self.rates[from_currency]
+            if to_currency == "EUR":
+                return initial_amount, from_currency, '=', amount, to_currency
+            else:
+                return initial_amount, from_currency, '=', amount * self.rates[to_currency], to_currency
+        except(TypeError, AttributeError, IndexError, KeyError):
+            amount = amount / self.rates['BDT']
             return initial_amount, from_currency, '=', amount, to_currency
-        else:
-            return initial_amount, from_currency, '=', amount * self.rates[to_currency], to_currency
-
+            
     def format_to_convert(self, item):
         """[summary: extract the the amount value and the code of devise]
 
@@ -52,7 +56,6 @@ class ConverterCurrency:
                 'code': 'USD',
                 'amount': round(float(item[1:].replace('.','')), 2)
             }  
-            #init_current, code, eq, amount, usd = self.convert(dict['amount'], dict['code'], "USD")
         return self.convert(dict['amount'], dict['code'], "USD")
     
     def current_convert(self, obj):
